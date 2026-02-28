@@ -1,0 +1,1861 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hage — Investor Teaser</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&display=swap');
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        :root[data-theme="dark"] {
+            --bg: #001633;
+            --bg-nav: rgba(0, 22, 51, 0.88);
+            --bg-card: #002053;
+            --bg-card2: #002a72;
+            --bg-strip: #001633;
+            --text: #f0f6ff;
+            --muted: #7fa4cc;
+            --muted2: rgba(127, 164, 204, 0.5);
+            --border: rgba(51, 202, 255, 0.14);
+            --border2: rgba(51, 202, 255, 0.28);
+            --divider: rgba(255, 255, 255, 0.06);
+            --shadow: 0 0 40px rgba(0, 81, 240, 0.18);
+            --logo-d: block;
+            --logo-l: none;
+            --hero-grad: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(0, 81, 240, 0.16) 0%, transparent 70%);
+        }
+
+        :root[data-theme="light"] {
+            --bg: #f0f5ff;
+            --bg-nav: rgba(240, 245, 255, 0.92);
+            --bg-card: #ffffff;
+            --bg-card2: #e8f0ff;
+            --bg-strip: #e0eaff;
+            --text: #0a1628;
+            --muted: #4a6080;
+            --muted2: rgba(74, 96, 128, 0.5);
+            --border: rgba(0, 81, 240, 0.12);
+            --border2: rgba(0, 81, 240, 0.3);
+            --divider: rgba(0, 81, 240, 0.08);
+            --shadow: 0 0 40px rgba(0, 81, 240, 0.10);
+            --logo-d: none;
+            --logo-l: block;
+            --hero-grad: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(0, 81, 240, 0.08) 0%, transparent 70%);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            transition: background .3s, color .3s
+        }
+
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            height: 64px;
+            background: var(--bg-nav);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--border);
+            transition: background .3s
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            flex-shrink: 0
+        }
+
+        .logo-full {
+            height: 32px;
+            width: auto
+        }
+
+        .logo-d {
+            display: var(--logo-d)
+        }
+
+        .logo-l {
+            display: var(--logo-l)
+        }
+
+        .logo-icon {
+            display: none;
+            height: 38px;
+            width: auto
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 10px
+        }
+
+        .theme-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid var(--border2);
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: var(--text);
+            transition: background .2s;
+            flex-shrink: 0
+        }
+
+        .theme-btn:hover {
+            background: var(--border)
+        }
+
+        .lang-toggle {
+            display: flex;
+            gap: 3px;
+            background: var(--border);
+            border: 1px solid var(--border2);
+            border-radius: 100px;
+            padding: 3px
+        }
+
+        .lang-btn {
+            padding: 5px 14px;
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .8px;
+            text-transform: uppercase;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            color: var(--muted);
+            transition: all .2s;
+            white-space: nowrap
+        }
+
+        .lang-btn.active {
+            background: #0051F0;
+            color: #fff
+        }
+
+        @media(max-width:520px) {
+            .nav {
+                padding: 0 16px
+            }
+
+            .logo-d,
+            .logo-l {
+                display: none !important
+            }
+
+            .logo-icon {
+                display: block
+            }
+        }
+
+        .hero {
+            padding: 100px 40px 56px;
+            text-align: center;
+            background: var(--hero-grad);
+            position: relative;
+            overflow: hidden
+        }
+
+        .round-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 81, 240, 0.10);
+            border: 1px solid rgba(0, 81, 240, 0.35);
+            color: #33CAFF;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 6px 18px;
+            border-radius: 100px;
+            margin-bottom: 26px
+        }
+
+        .round-badge::before {
+            content: '●';
+            font-size: 7px;
+            animation: pulse 2s infinite
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: .25
+            }
+        }
+
+        .hero h1 {
+            font-size: clamp(28px, 5vw, 58px);
+            font-weight: 900;
+            letter-spacing: -2px;
+            line-height: 1.08;
+            margin-bottom: 16px
+        }
+
+        .hero h1 em {
+            font-style: normal;
+            background: linear-gradient(90deg, #0051F0, #33CAFF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text
+        }
+
+        .hero-sub {
+            font-size: clamp(14px, 1.8vw, 17px);
+            color: var(--muted);
+            max-width: 660px;
+            margin: 0 auto 24px;
+            font-weight: 300
+        }
+
+        .site-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #33CAFF;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(51, 202, 255, .3);
+            padding-bottom: 1px;
+            margin-bottom: 24px;
+            transition: border-color .2s
+        }
+
+        .site-link:hover {
+            border-color: #33CAFF
+        }
+
+        .chips-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 7px;
+            margin-bottom: 8px
+        }
+
+        .chip {
+            padding: 5px 13px;
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 600;
+            border: 1px solid;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px
+        }
+
+        .chip-s {
+            background: rgba(0, 81, 240, .08);
+            border-color: rgba(0, 81, 240, .28);
+            color: #66D6FF
+        }
+
+        .chip-m {
+            background: rgba(51, 202, 255, .06);
+            border-color: rgba(51, 202, 255, .18);
+            color: var(--muted)
+        }
+
+        .chip-g {
+            background: rgba(34, 197, 94, .07);
+            border-color: rgba(34, 197, 94, .28);
+            color: #4ade80
+        }
+
+        .chip-a {
+            background: rgba(251, 191, 36, .07);
+            border-color: rgba(251, 191, 36, .28);
+            color: #fbbf24
+        }
+
+        /* METRICS */
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 1px;
+            background: var(--border);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border)
+        }
+
+        .metric {
+            background: var(--bg-strip);
+            padding: 24px 16px;
+            text-align: center;
+            transition: background .3s
+        }
+
+        .metric-val {
+            font-size: clamp(18px, 2.2vw, 28px);
+            font-weight: 800;
+            letter-spacing: -1px;
+            line-height: 1;
+            margin-bottom: 5px;
+            color: #33CAFF
+        }
+
+        .metric-val.blue {
+            color: #60a5fa
+        }
+
+        .metric-val.green {
+            color: #4ade80
+        }
+
+        .metric-label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .8px;
+            color: var(--muted)
+        }
+
+        @media(max-width:900px) {
+            .metrics {
+                grid-template-columns: repeat(3, 1fr)
+            }
+        }
+
+        @media(max-width:480px) {
+            .metrics {
+                grid-template-columns: repeat(2, 1fr)
+            }
+        }
+
+        /* TRUSTED BY */
+        .trusted {
+            padding: 22px 16px;
+            background: rgba(0, 81, 240, .04);
+            border-bottom: 1px solid var(--border);
+            text-align: center
+        }
+
+        .trusted .t-title {
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #33CAFF;
+            font-weight: 800;
+            margin-bottom: 10px
+        }
+
+        .logo-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center
+        }
+
+        .logo-chip {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text);
+            padding: 7px 12px;
+            border-radius: 999px;
+            background: var(--bg-card);
+            border: 1px solid var(--border)
+        }
+
+        .logo-chip.muted {
+            color: var(--muted)
+        }
+
+        /* LAYOUT */
+        .wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 40px
+        }
+
+        .section {
+            padding: 60px 0
+        }
+
+        .s-eye {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #33CAFF;
+            margin-bottom: 10px
+        }
+
+        .s-head {
+            font-size: clamp(20px, 2.5vw, 28px);
+            font-weight: 800;
+            letter-spacing: -.5px;
+            margin-bottom: 32px
+        }
+
+        .divider {
+            border: none;
+            border-top: 1px solid var(--divider)
+        }
+
+        /* GRIDS */
+        .g2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px
+        }
+
+        .g3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px
+        }
+
+        /* CARDS */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 26px;
+            transition: border-color .2s, box-shadow .2s, background .3s
+        }
+
+        .card:hover {
+            border-color: var(--border2);
+            box-shadow: var(--shadow)
+        }
+
+        .card-ico {
+            font-size: 24px;
+            margin-bottom: 12px
+        }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 7px
+        }
+
+        .card-body {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.75
+        }
+
+        /* PS */
+        .ps-wrap {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2px;
+            background: var(--border);
+            border-radius: 20px;
+            overflow: hidden
+        }
+
+        .ps-panel {
+            padding: 36px;
+            background: var(--bg-card)
+        }
+
+        .ps-panel.sol {
+            background: var(--bg-card2)
+        }
+
+        .ps-eye {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 12px
+        }
+
+        .ps-eye.red {
+            color: #f87171
+        }
+
+        .ps-eye.grn {
+            color: #4ade80
+        }
+
+        .ps-panel h3 {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 10px
+        }
+
+        .ps-panel p {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.8
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 14px
+        }
+
+        .tag {
+            font-size: 10px;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: .4px;
+            background: rgba(51, 202, 255, .06);
+            border: 1px solid rgba(51, 202, 255, .15);
+            color: #66D6FF
+        }
+
+        .tag.red {
+            background: rgba(248, 113, 113, .06);
+            border-color: rgba(248, 113, 113, .2);
+            color: #f87171
+        }
+
+        /* MARKET */
+        .mkt-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-bottom: 20px
+        }
+
+        .mkt-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 18px;
+            text-align: center;
+            transition: background .3s
+        }
+
+        .mkt-val {
+            font-size: 20px;
+            font-weight: 800;
+            color: #33CAFF;
+            margin-bottom: 3px
+        }
+
+        .mkt-lbl {
+            font-size: 10px;
+            color: var(--muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: .7px
+        }
+
+        /* UE GRID */
+        .ue-grid {
+            display: grid;
+            gap: 12px;
+            grid-template-columns: repeat(3, 1fr)
+        }
+
+        @media(min-width:700px) {
+            .ue-grid {
+                grid-template-columns: repeat(5, 1fr)
+            }
+        }
+
+        @media(max-width:400px) {
+            .ue-grid {
+                grid-template-columns: repeat(2, 1fr)
+            }
+        }
+
+        .ue-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px 10px;
+            text-align: center;
+            transition: background .3s
+        }
+
+        .ue-val {
+            font-size: 17px;
+            font-weight: 800;
+            color: #33CAFF;
+            margin-bottom: 2px
+        }
+
+        .ue-val.blue {
+            color: #60a5fa
+        }
+
+        .ue-val.green {
+            color: #4ade80
+        }
+
+        .ue-val.amber {
+            color: #fbbf24
+        }
+
+        .ue-lbl {
+            font-size: 9px;
+            color: var(--muted);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .6px
+        }
+
+        .ue-sub {
+            font-size: 9px;
+            color: var(--muted2);
+            margin-top: 2px
+        }
+
+        .fx-note {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: rgba(251, 191, 36, .06);
+            border: 1px solid rgba(251, 191, 36, .18);
+            color: #fbbf24;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 5px 13px;
+            border-radius: 8px;
+            margin-bottom: 18px
+        }
+
+        /* TIMELINE */
+        .timeline {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 0;
+            background: var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+            margin-bottom: 28px
+        }
+
+        .t-step {
+            background: var(--bg-card);
+            padding: 14px 8px;
+            text-align: center;
+            border-right: 1px solid var(--border);
+            transition: background .3s
+        }
+
+        .t-step:last-child {
+            border-right: none
+        }
+
+        .t-year {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--muted);
+            margin-bottom: 4px
+        }
+
+        .t-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text)
+        }
+
+        .t-step.now {
+            background: rgba(0, 81, 240, .12);
+            border-top: 2px solid #0051F0
+        }
+
+        .t-step.now .t-year {
+            color: #33CAFF
+        }
+
+        .t-step.next {
+            background: rgba(0, 81, 240, .05);
+            border-top: 2px solid rgba(0, 81, 240, .4)
+        }
+
+        .t-step.next .t-year {
+            color: #33CAFF
+        }
+
+        @media(max-width:560px) {
+            .timeline {
+                grid-template-columns: repeat(3, 1fr)
+            }
+        }
+
+        /* FUNDS */
+        .fund-list {
+            display: flex;
+            flex-direction: column;
+            gap: 13px
+        }
+
+        .fund-row {
+            display: flex;
+            align-items: center;
+            gap: 12px
+        }
+
+        .fund-lbl {
+            font-size: 12px;
+            font-weight: 600;
+            width: 155px;
+            flex-shrink: 0;
+            color: var(--text)
+        }
+
+        .fund-track {
+            flex: 1;
+            background: rgba(51, 202, 255, .06);
+            border-radius: 100px;
+            height: 9px;
+            overflow: hidden
+        }
+
+        .fund-fill {
+            height: 100%;
+            border-radius: 100px
+        }
+
+        .fp1 {
+            background: #0051F0;
+            width: 40%
+        }
+
+        .fp2 {
+            background: #fbbf24;
+            width: 30%
+        }
+
+        .fp3 {
+            background: #60a5fa;
+            width: 20%
+        }
+
+        .fp4 {
+            background: #a78bfa;
+            width: 10%
+        }
+
+        .fund-pct {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--muted);
+            width: 32px;
+            text-align: right
+        }
+
+        /* MILESTONES */
+        .ms-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px
+        }
+
+        .ms-item {
+            display: flex;
+            gap: 13px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            padding: 16px 20px;
+            align-items: flex-start;
+            transition: background .3s
+        }
+
+        .ms-ico {
+            font-size: 20px;
+            flex-shrink: 0;
+            margin-top: 1px
+        }
+
+        .ms-item h4 {
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 3px
+        }
+
+        .ms-item p {
+            font-size: 12px;
+            color: var(--muted)
+        }
+
+        /* DEAL */
+        .deal {
+            background: linear-gradient(135deg, rgba(0, 81, 240, .09) 0%, rgba(51, 202, 255, .05) 100%);
+            border: 1px solid rgba(51, 202, 255, .28);
+            border-radius: 24px;
+            padding: 48px;
+            text-align: center;
+            position: relative;
+            overflow: hidden
+        }
+
+        .deal::before {
+            content: '';
+            position: absolute;
+            top: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 420px;
+            height: 420px;
+            background: radial-gradient(circle, rgba(0, 81, 240, .10) 0%, transparent 70%);
+            pointer-events: none
+        }
+
+        .deal h2 {
+            font-size: 26px;
+            font-weight: 900;
+            margin-bottom: 5px
+        }
+
+        .deal .dsub {
+            color: var(--muted);
+            margin-bottom: 34px;
+            font-size: 13px
+        }
+
+        .deal-nums {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 32px;
+            margin-bottom: 30px
+        }
+
+        .dn {
+            text-align: center
+        }
+
+        .dn-val {
+            font-size: 30px;
+            font-weight: 900;
+            color: #33CAFF;
+            letter-spacing: -1px
+        }
+
+        .dn-val.amber {
+            color: #fbbf24
+        }
+
+        .dn-lbl {
+            font-size: 10px;
+            color: var(--muted);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px
+        }
+
+        .deal-arrow {
+            font-size: 20px;
+            color: var(--muted);
+            padding-top: 8px
+        }
+
+        .deal-terms {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 28px
+        }
+
+        .dt {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 10px 15px;
+            font-size: 11px;
+            text-align: center;
+            transition: background .3s
+        }
+
+        .dt strong {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 2px
+        }
+
+        .dt span {
+            color: var(--muted)
+        }
+
+        .deal-note {
+            font-size: 11px;
+            color: var(--muted);
+            background: rgba(51, 202, 255, .04);
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            padding: 9px 15px;
+            display: inline-block;
+            margin-top: 6px
+        }
+
+        /* TEAM */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px
+        }
+
+        .tc {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px 16px;
+            text-align: center;
+            transition: border-color .2s, box-shadow .2s, background .3s
+        }
+
+        .tc:hover {
+            border-color: var(--border2);
+            box-shadow: var(--shadow)
+        }
+
+        .tc img,
+        .tc-avatar {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 12px;
+            display: block;
+            border: 2px solid rgba(51, 202, 255, .25)
+        }
+
+        .tc-avatar {
+            background: linear-gradient(135deg, #0051F0, #33CAFF);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 900;
+            color: #fff;
+            border: none
+        }
+
+        .tc-name {
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 2px
+        }
+
+        .tc-role {
+            font-size: 11px;
+            color: #33CAFF;
+            font-weight: 600;
+            margin-bottom: 10px
+        }
+
+        .tc-sub {
+            font-size: 10px;
+            color: var(--muted);
+            line-height: 1.35;
+            margin-top: -6px;
+            margin-bottom: 10px
+        }
+
+        .tc-contact {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-top: 10px;
+            border-top: 1px solid var(--border);
+            padding-top: 10px
+        }
+
+        .tc-contact a {
+            font-size: 11px;
+            color: var(--muted);
+            text-decoration: none;
+            transition: color .2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px
+        }
+
+        .tc-contact a:hover {
+            color: #33CAFF
+        }
+
+        /* CTA */
+        .cta-section {
+            text-align: center;
+            padding: 60px 40px;
+            border-top: 1px solid var(--divider);
+            background: linear-gradient(180deg, transparent 0%, rgba(0, 81, 240, .04) 100%)
+        }
+
+        .cta-section h2 {
+            font-size: clamp(20px, 3vw, 30px);
+            font-weight: 900;
+            margin-bottom: 10px
+        }
+
+        .cta-section p {
+            color: var(--muted);
+            margin-bottom: 26px;
+            font-size: 13px
+        }
+
+        .btn-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 16px
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 13px 26px;
+            border-radius: 100px;
+            font-weight: 700;
+            font-size: 13px;
+            text-decoration: none;
+            transition: opacity .2s, transform .2s
+        }
+
+        .btn:hover {
+            opacity: .88;
+            transform: translateY(-1px)
+        }
+
+        .btn-primary {
+            background: #0051F0;
+            color: #fff
+        }
+
+        .btn-wa {
+            background: #25D366;
+            color: #fff
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid #33CAFF;
+            color: #33CAFF
+        }
+
+        .cta-contact {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 10px
+        }
+
+        .cta-contact a {
+            color: #33CAFF;
+            text-decoration: none
+        }
+
+        footer {
+            text-align: center;
+            padding: 18px 40px;
+            border-top: 1px solid var(--divider);
+            font-size: 11px;
+            color: var(--muted2)
+        }
+
+        /* RESPONSIVE */
+        @media(max-width:900px) {
+            .g3 {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .team-grid {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .mkt-grid {
+                grid-template-columns: repeat(3, 1fr)
+            }
+        }
+
+        @media(max-width:720px) {
+            .ps-wrap {
+                grid-template-columns: 1fr
+            }
+
+            .g2 {
+                grid-template-columns: 1fr
+            }
+
+            .g3 {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .deal {
+                padding: 32px 18px
+            }
+
+            .hero {
+                padding: 88px 20px 44px
+            }
+
+            .wrap {
+                padding: 0 20px
+            }
+
+            .section {
+                padding: 48px 0
+            }
+
+            .cta-section {
+                padding: 48px 20px
+            }
+
+            .fund-lbl {
+                width: 130px
+            }
+        }
+
+        @media(max-width:480px) {
+            .team-grid {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .g3 {
+                grid-template-columns: 1fr
+            }
+
+            .mkt-grid {
+                grid-template-columns: 1fr 1fr
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <nav class="nav">
+        <a class="nav-logo" href="https://www.hagelab.com.br" target="_blank" rel="noreferrer">
+            <span class="logo-d"><svg width="435" height="100" viewBox="0 0 435 100" fill="none"
+                    xmlns="http://www.w3.org/2000/svg"></svg></span>
+            <span class="logo-l"><svg width="435" height="100" viewBox="0 0 435 100" fill="none"
+                    xmlns="http://www.w3.org/2000/svg"></svg></span>
+            <span class="logo-icon"><svg width="40" height="44" viewBox="0 0 95 100" fill="none"
+                    xmlns="http://www.w3.org/2000/svg"></svg></span>
+        </a>
+        <div class="nav-right">
+            <button class="theme-btn" onclick="toggleTheme()" id="themeBtn" title="Toggle theme">🌙</button>
+            <div class="lang-toggle">
+                <button class="lang-btn" id="btn-pt" onclick="setLang('pt')">PT-BR</button>
+                <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN-US</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="round-badge" data-en="Seed+ Bridge Round — SAFE Post-Money"
+            data-pt="Rodada Seed+ Bridge — SAFE Post-Money">Seed+ Bridge Round — SAFE Post-Money</div>
+        <h1 data-en="Scalable IoT Platform for<br><em>Cold Chain &amp; Critical Logistics</em>"
+            data-pt="Plataforma IoT Escalável para<br><em>Cadeia Fria e Logística Crítica</em>">Scalable IoT Platform
+            for<br><em>Cold Chain &amp; Critical Logistics</em></h1>
+
+        <p class="hero-sub"
+            data-en="Hardware-as-a-Service (HaaS) — recurring revenue, 67% gross margin, breakeven achieved, 100+ enterprise clients and 1,800+ monitored points. Ready to scale."
+            data-pt="Equipamento-como-um-Serviço (HaaS) — receita recorrente, 67% de margem bruta, ponto de equilíbrio atingido, 100+ clientes empresariais e 1.800+ pontos monitorados. Pronta para escalar.">
+            Hardware-as-a-Service (HaaS) — recurring revenue, 67% gross margin, and breakeven achieved. Ready to scale.
+        </p>
+
+        <a href="https://www.hagelab.com.br" target="_blank" rel="noreferrer" class="site-link">🌐 www.hagelab.com.br
+            ↗</a>
+
+        <div class="chips-row">
+            <span class="chip chip-s">🏥 <span data-en="Healthcare" data-pt="Saúde">Healthcare</span></span>
+            <span class="chip chip-s">🚚 <span data-en="Logistics" data-pt="Logística">Logistics</span></span>
+            <span class="chip chip-s">❄️ Cold Chain</span>
+        </div>
+
+        <div class="chips-row" style="margin-top:4px">
+            <span class="chip chip-m">📡 IoT Technology</span>
+            <span class="chip chip-m">🔁 B2B HaaS</span>
+            <span class="chip chip-g">✓ <span data-en="Breakeven Achieved" data-pt="Breakeven Atingido">Breakeven
+                    Achieved</span></span>
+            <span class="chip chip-a">⚡ <span data-en="Scaling Stage" data-pt="Fase de Escala">Scaling
+                    Stage</span></span>
+        </div>
+    </section>
+
+    <!-- METRICS STRIP -->
+    <div class="metrics">
+        <div class="metric">
+            <div class="metric-val">100+</div>
+            <div class="metric-label" data-en="Enterprise Clients" data-pt="Clientes Enterprise">Enterprise Clients
+            </div>
+        </div>
+        <div class="metric">
+            <div class="metric-val">1.800+</div>
+            <div class="metric-label" data-en="Monitored Points" data-pt="Pontos Monitorados">Monitored Points</div>
+        </div>
+        <div class="metric">
+            <div class="metric-val">67.4%</div>
+            <div class="metric-label" data-en="Gross Margin" data-pt="Margem Bruta">Gross Margin</div>
+        </div>
+        <div class="metric">
+            <div class="metric-val blue">10.7×</div>
+            <div class="metric-label">LTV / CAC</div>
+        </div>
+        <div class="metric">
+            <div class="metric-val mrr-m">$24.3K</div>
+            <div class="metric-label">MRR</div>
+        </div>
+        <div class="metric">
+            <div class="metric-val green">3–9<span style="font-size:.55em;font-weight:600"> <span data-en="mo"
+                        data-pt="m">mo</span></span></div>
+            <div class="metric-label" data-en="Payback Period" data-pt="Período de Payback">Payback Period</div>
+        </div>
+    </div>
+
+    <!-- TRUSTED BY -->
+    <div class="trusted">
+        <div class="t-title" data-en="Trusted by regulated operators" data-pt="Confiado por operações reguladas">Trusted
+            by regulated operators</div>
+        <div class="logo-cloud">
+            <span class="logo-chip">Equiplex</span>
+            <span class="logo-chip">Transplex</span>
+            <span class="logo-chip">Sabin</span>
+            <span class="logo-chip">União Química</span>
+            <span class="logo-chip" data-en="Hospital do Câncer (Rio Verde)"
+                data-pt="Hospital do Câncer (Rio Verde)">Hospital do Câncer (Rio Verde)</span>
+            <span class="logo-chip muted" data-en="+100 enterprise customers" data-pt="+100 clientes enterprise">+100
+                enterprise customers</span>
+        </div>
+    </div>
+
+    <!-- MAIN -->
+    <div class="wrap">
+
+        <!-- PROBLEM / SOLUTION -->
+        <section class="section">
+            <div class="ps-wrap">
+                <div class="ps-panel">
+                    <div class="ps-eye red" data-en="⚠ The Problem" data-pt="⚠ O Problema">⚠ The Problem</div>
+                    <h3 data-en="Critical Operations Running Blind" data-pt="Operações Críticas sem Visibilidade">
+                        Critical Operations Running Blind</h3>
+                    <p data-en="Transport and storage of critical materials still rely on manual processes, with low operational visibility and constant risk of losses from equipment failure, human error and regulatory non-compliance (FDA, ANVISA, PIC/S, GAMP 5)."
+                        data-pt="Transporte e armazenagem de materiais críticos ainda dependem de processos manuais, com baixa visibilidade operacional e risco constante de perdas por falha de equipamentos, erro humano e não conformidade regulatória (FDA, ANVISA, PIC/S, GAMP 5).">
+                        Transport and storage of critical materials still rely on manual processes, with low operational
+                        visibility and constant risk of losses from equipment failure, human error and regulatory
+                        non-compliance (FDA, ANVISA, PIC/S, GAMP 5).
+                    </p>
+                    <div class="tags">
+                        <span class="tag red" data-en="Manual Processes" data-pt="Processos Manuais">Manual
+                            Processes</span>
+                        <span class="tag red" data-en="Low Visibility" data-pt="Baixa Visibilidade">Low
+                            Visibility</span>
+                        <span class="tag red" data-en="Regulatory Risk" data-pt="Risco Regulatório">Regulatory
+                            Risk</span>
+                        <span class="tag red" data-en="Product Loss" data-pt="Perda de Produto">Product Loss</span>
+                    </div>
+                </div>
+
+                <div class="ps-panel sol">
+                    <div class="ps-eye grn" data-en="✦ The Solution" data-pt="✦ A Solução">✦ The Solution</div>
+                    <h3 data-en="One Platform for Zero-Failure Environments"
+                        data-pt="Uma Plataforma para Ambientes Zero-Falha">One Platform for Zero-Failure Environments
+                    </h3>
+                    <p data-en="Single platform for telemetry, traceability, and compliance with a 100% proprietary stack. Audit-ready traceability, up to 5-year data retention and ERP integration — aligned with FDA, ANVISA, PIC/S, GAMP 5, GDPR &amp; LGPD."
+                        data-pt="Plataforma única para telemetria, rastreabilidade e compliance com stack 100% proprietário. Rastreabilidade pronta para auditoria, retenção de dados por até 5 anos e integração com ERPs — alinhada a FDA, ANVISA, PIC/S, GAMP 5, GDPR e LGPD.">
+                        Single platform for telemetry, traceability, and compliance with a 100% proprietary stack.
+                        Audit-ready traceability, up to 5-year data retention and ERP integration — aligned with FDA,
+                        ANVISA, PIC/S, GAMP 5, GDPR &amp; LGPD.
+                    </p>
+                    <div class="tags">
+                        <span class="tag" data-en="Proprietary Stack" data-pt="Stack Proprietário">Proprietary
+                            Stack</span>
+                        <span class="tag" data-en="Audit Trail" data-pt="Trilha de Auditoria">Audit Trail</span>
+                        <span class="tag">FDA / ANVISA</span>
+                        <span class="tag">PIC/S · GAMP 5</span>
+                        <span class="tag" data-en="Up to 5yr History" data-pt="Até 5 anos de histórico">Up to 5yr
+                            History</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="divider">
+
+        <!-- MARKET -->
+        <section class="section">
+            <p class="s-eye" data-en="Market Opportunity" data-pt="Oportunidade de Mercado">Market Opportunity</p>
+            <h2 class="s-head" data-en="$73B+ Global Addressable Market" data-pt="Mercado Endereçável Global de $73B+">
+                $73B+ Global Addressable Market</h2>
+
+            <div class="mkt-grid">
+                <div class="mkt-card">
+                    <div class="mkt-val">~$25B</div>
+                    <div class="mkt-lbl" data-en="Pharma &amp; Biotech Cold Chain"
+                        data-pt="Farma &amp; Biotech Cadeia Fria">Pharma &amp; Biotech Cold Chain</div>
+                </div>
+                <div class="mkt-card">
+                    <div class="mkt-val">~$21B</div>
+                    <div class="mkt-lbl" data-en="Temp-Controlled Fleets" data-pt="Frotas c/ Controle Temp.">
+                        Temp-Controlled Fleets</div>
+                </div>
+                <div class="mkt-card">
+                    <div class="mkt-val">~$11.5B</div>
+                    <div class="mkt-lbl" data-en="Vaccine &amp; Blood Transport"
+                        data-pt="Transporte de Vacinas e Sangue">Vaccine &amp; Blood Transport</div>
+                </div>
+                <div class="mkt-card">
+                    <div class="mkt-val">~$7.8B</div>
+                    <div class="mkt-lbl" data-en="Labs &amp; Diagnostics" data-pt="Laboratórios e Diagnósticos">Labs
+                        &amp; Diagnostics</div>
+                </div>
+                <div class="mkt-card">
+                    <div class="mkt-val">~$4.3B</div>
+                    <div class="mkt-lbl" data-en="Agribusiness &amp; Perishables" data-pt="Agronegócio e Perecíveis">
+                        Agribusiness &amp; Perishables</div>
+                </div>
+                <div class="mkt-card">
+                    <div class="mkt-val">~$3.3B</div>
+                    <div class="mkt-lbl" data-en="Food &amp; Beverage" data-pt="Alimentos e Bebidas">Food &amp; Beverage
+                    </div>
+                </div>
+
+            </div>
+            <div class="mkt-card" style="background:rgba(0,81,240,.09);border-color:rgba(0,81,240,.35)">
+                <div class="mkt-val" style="color:#fff">$200M+</div>
+                <div class="mkt-lbl" style="color:#33CAFF" data-en="Available in Brazil"
+                    data-pt="Disponível no Brasil">Available in Brazil</div>
+            </div>
+
+            <div style="text-align:center;margin-top:14px;">
+                <span class="chip chip-a" style="font-size:12px;padding:7px 16px">
+                    🎯 <span data-en="Target ARR: $10M–$20M within 3–5 years"
+                        data-pt="ARR Alvo: $10M–$20M em 3–5 anos">Target ARR: $10M–$20M within 3–5 years</span>
+                </span>
+            </div>
+        </section>
+
+        <hr class="divider">
+
+        <!-- PRODUCT -->
+        <section class="section">
+            <p class="s-eye" data-en="Platform" data-pt="Plataforma">Platform</p>
+            <h2 class="s-head" data-en="Proprietary Stack — Three Product Lines"
+                data-pt="Stack Proprietário — Três Linhas de Produto">Proprietary Stack — Three Product Lines</h2>
+            <div class="g3">
+                <div class="card">
+                    <div class="card-ico">📡</div>
+                    <div class="card-title" data-en="Fixed Telemetry" data-pt="Telemetria Fixa">Fixed Telemetry</div>
+                    <div class="card-body"
+                        data-en="Real-time temperature &amp; humidity monitoring for warehouses, cold rooms, labs and storage facilities with high-precision sensors and compensation algorithms."
+                        data-pt="Monitoramento em tempo real de temperatura e umidade para armazéns, câmaras frias, laboratórios e depósitos com sensores de alta precisão e algoritmos de compensação.">
+                        Real-time temperature &amp; humidity monitoring for warehouses, cold rooms, labs and storage
+                        facilities with high-precision sensors and compensation algorithms.
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-ico">🚚</div>
+                    <div class="card-title" data-en="Mobile Telemetry + Fleet Tracking"
+                        data-pt="Telemetria Móvel + Rastreio de Frota">Mobile Telemetry + Fleet Tracking</div>
+                    <div class="card-body"
+                        data-en="In-transit environmental monitoring with GPS fleet tracking and driver identity authentication — complete chain-of-custody for sensitive material transport."
+                        data-pt="Monitoramento ambiental em trânsito com rastreamento GPS de frota e identificação de motorista — cadeia de custódia completa para transporte de materiais sensíveis.">
+                        In-transit environmental monitoring with GPS fleet tracking and driver identity authentication —
+                        complete chain-of-custody for sensitive material transport.
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-ico">🧩</div>
+                    <div class="card-title" data-en="Compliance &amp; Traceability"
+                        data-pt="Compliance e Rastreabilidade">Compliance &amp; Traceability</div>
+                    <div class="card-body"
+                        data-en="Audit-ready traceability, full audit trail, multichannel alerts (App, WhatsApp, SMS, voice) and secure API with ERP &amp; legacy system integration."
+                        data-pt="Rastreabilidade pronta para auditoria, trilha de auditoria completa, alertas multicanal (App, WhatsApp, SMS, voz) e API segura com integração a ERPs e sistemas legados.">
+                        Audit-ready traceability, full audit trail, multichannel alerts (App, WhatsApp, SMS, voice) and
+                        secure API with ERP &amp; legacy system integration.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="divider">
+
+        <!-- UNIT ECONOMICS -->
+        <section class="section">
+            <p class="s-eye" data-en="Traction &amp; Unit Economics" data-pt="Tração e Unit Economics">Traction &amp;
+                Unit Economics</p>
+            <h2 class="s-head" data-en="Numbers Built to Compound" data-pt="Números que se Compõem">Numbers Built to
+                Compound</h2>
+
+            <div class="timeline">
+                <div class="t-step">
+                    <div class="t-year">2021</div>
+                    <div class="t-label" data-en="Validation" data-pt="Validação">Validation</div>
+                </div>
+                <div class="t-step">
+                    <div class="t-year">2022</div>
+                    <div class="t-label" data-en="Operations" data-pt="Operações">Operations</div>
+                </div>
+                <div class="t-step">
+                    <div class="t-year">2023</div>
+                    <div class="t-label" data-en="Expansion" data-pt="Expansão">Expansion</div>
+                </div>
+                <div class="t-step">
+                    <div class="t-year">2024</div>
+                    <div class="t-label" data-en="Consolidation" data-pt="Consolidação">Consolidation</div>
+                </div>
+                <div class="t-step now">
+                    <div class="t-year">2025</div>
+                    <div class="t-label">✓ Breakeven</div>
+                </div>
+                <div class="t-step next">
+                    <div class="t-year">2026</div>
+                    <div class="t-label" data-en="Scale ⚡" data-pt="Escala ⚡">Scale ⚡</div>
+                </div>
+            </div>
+
+            <div class="fx-note">💱 <span data-en="FX Reference: $1 = R$5 · Switch to PT-BR to see BRL values"
+                    data-pt="Referência FX: $1 = R$5 · Use EN-US para ver valores em USD">FX Reference: $1 = R$5 ·
+                    Switch to PT-BR to see BRL values</span></div>
+
+            <div class="ue-grid">
+                <div class="ue-card">
+                    <div class="ue-val mrr-ue">$24.3K</div>
+                    <div class="ue-lbl">MRR</div>
+                    <div class="ue-sub" data-en="Current" data-pt="Atual">Current</div>
+                </div>
+                <div class="ue-card">
+                    <div class="ue-val blue arr-ue">$292K</div>
+                    <div class="ue-lbl">ARR Run-Rate</div>
+                    <div class="ue-sub" data-en="Annualized" data-pt="Anualizado">Annualized</div>
+                </div>
+                <div class="ue-card">
+                    <div class="ue-val green">67.4%</div>
+                    <div class="ue-lbl" data-en="Gross Margin" data-pt="Margem Bruta">Gross Margin</div>
+                    <div class="ue-sub" data-en="→ 78.1% target" data-pt="→ alvo 78,1%">→ 78.1% target</div>
+                </div>
+
+                <!-- EBITDA split (investor clarity) -->
+                <div class="ue-card">
+                    <div class="ue-val blue ebitda-ex-ue">45.8%</div>
+                    <div class="ue-lbl" data-en="EBITDA (ex-founders)" data-pt="EBITDA (ex-founders)">EBITDA
+                        (ex-founders)</div>
+                    <div class="ue-sub" data-en="Current" data-pt="Atual">Current</div>
+                </div>
+                <div class="ue-card">
+                    <div class="ue-val ebitda-ue">28.4%</div>
+                    <div class="ue-lbl" data-en="EBITDA" data-pt="EBITDA">EBITDA</div>
+                    <div class="ue-sub" data-en="→ 36.3% target" data-pt="→ alvo 36,3%">→ 36.3% target</div>
+                </div>
+            </div>
+
+            <div class="ue-grid" style="margin-top:12px;">
+                <div class="ue-card">
+                    <div class="ue-val amber cac-ue">$491</div>
+                    <div class="ue-lbl">CAC</div>
+                    <div class="ue-sub" data-en="Cost of Acquisition" data-pt="Custo de Aquisição">Cost of Acquisition
+                    </div>
+                </div>
+                <div class="ue-card">
+                    <div class="ue-val ltv-ue">$5.25K</div>
+                    <div class="ue-lbl">LTV</div>
+                    <div class="ue-sub" data-en="Lifetime Value" data-pt="Valor Vitalício">Lifetime Value</div>
+                </div>
+                <div class="ue-card">
+                    <div class="ue-val blue">10.7×</div>
+                    <div class="ue-lbl">LTV / CAC</div>
+                    <div class="ue-sub" data-en="Strong efficiency" data-pt="Alta eficiência">Strong efficiency</div>
+                </div>
+                <div class="ue-card">
+                    <div class="ue-val">~5%</div>
+                    <div class="ue-lbl" data-en="Annual Churn" data-pt="Churn Anual">Annual Churn</div>
+                    <div class="ue-sub" data-en="→ 4.5% target" data-pt="→ alvo 4,5%">→ 4.5% target</div>
+                </div>
+                <div class="ue-card">
+                    <div class="ue-val green">3–9<span style="font-size:.6em">mo</span></div>
+                    <div class="ue-lbl" data-en="Payback" data-pt="Payback">Payback</div>
+                    <div class="ue-sub" data-en="Per device" data-pt="Por dispositivo">Per device</div>
+                </div>
+            </div>
+
+            <div
+                style="margin-top:14px;padding:12px 16px;background:rgba(0,81,240,.06);border:1px solid rgba(0,81,240,.22);border-radius:12px;font-size:12px;color:var(--muted)">
+                📌 <strong style="color:var(--text)" data-en="2026 Projection:" data-pt="Projeção 2026:">2026
+                    Projection:</strong>
+                <span class="rev-proj" data-en=" Revenue target $252K–$400K · EBITDA target 36.3% · ARR target $383K"
+                    data-pt=" Receita alvo R$1,26M–R$2,00M · EBITDA alvo 36,3% · ARR alvo R$1,92M">
+                    Revenue target $252K–$400K · EBITDA target 36.3% · ARR target $383K
+                </span>
+            </div>
+        </section>
+
+        <hr class="divider">
+
+        <!-- BUSINESS MODEL -->
+        <section class="section">
+            <p class="s-eye" data-en="Business Model" data-pt="Modelo de Negócios">Business Model</p>
+            <h2 class="s-head" data-en="HaaS — Pure Recurring Revenue" data-pt="HaaS — Receita Recorrente Pura">HaaS —
+                Pure Recurring Revenue</h2>
+
+            <div class="g2">
+                <div class="card">
+                    <div class="card-ico">🔄</div>
+                    <div class="card-title" data-en="Subscription per Active Device"
+                        data-pt="Assinatura por Dispositivo Ativo">Subscription per Active Device</div>
+                    <div class="card-body"
+                        data-en="Annual and multi-year B2B contracts. Revenue stacks as clients add devices — platform fee + warranty + support bundled in one monthly charge. 100% in-house manufactured hardware &amp; software."
+                        data-pt="Contratos B2B anuais e plurianuais. Receita cresce conforme clientes adicionam dispositivos — taxa de plataforma + garantia + suporte em cobrança mensal única. Hardware e software 100% fabricados internamente.">
+                        Annual and multi-year B2B contracts. Revenue stacks as clients add devices — platform fee +
+                        warranty + support bundled in one monthly charge. 100% in-house manufactured hardware &amp;
+                        software.
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-ico">📈</div>
+                    <div class="card-title" data-en="Land-and-Expand Growth" data-pt="Crescimento Land-and-Expand">
+                        Land-and-Expand Growth</div>
+                    <div class="card-body"
+                        data-en="Deployments expand organically as clients add monitored points, adopt cross-sell modules and replace legacy solutions. Proven impact in live enterprise operations: 14M liters CO₂/yr avoided; +21% operational efficiency in a single deployment."
+                        data-pt="Implantações expandem organicamente conforme clientes adicionam pontos, adotam módulos cross-sell e substituem legados. Impacto comprovado em operação enterprise real: 14M litros CO₂/ano evitados; +21% eficiência operacional em um único deploy.">
+                        Deployments expand organically as clients add monitored points, adopt cross-sell modules and
+                        replace legacy solutions. Proven impact: 14M liters CO₂/yr avoided; +21% operational efficiency
+                        in a single enterprise deployment.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="divider">
+
+        <!-- FUNDS + MILESTONES -->
+        <section class="section">
+            <div class="g2" style="align-items:start;gap:48px">
+                <div>
+                    <p class="s-eye" data-en="Use of Proceeds" data-pt="Uso dos Recursos">Use of Proceeds</p>
+                    <h2 class="s-head" data-en="Capital Deployed for Scale" data-pt="Capital Alocado para Escala">
+                        Capital Deployed for Scale</h2>
+                    <div class="fund-list">
+                        <div class="fund-row">
+                            <div class="fund-lbl">🔧 <span data-en="Hardware Dev." data-pt="Hardware">Hardware
+                                    Dev.</span></div>
+                            <div class="fund-track">
+                                <div class="fund-fill fp1"></div>
+                            </div>
+                            <div class="fund-pct">40%</div>
+                        </div>
+                        <div class="fund-row">
+                            <div class="fund-lbl">📣 <span data-en="Marketing &amp; Sales"
+                                    data-pt="Marketing e Vendas">Marketing &amp; Sales</span></div>
+                            <div class="fund-track">
+                                <div class="fund-fill fp2"></div>
+                            </div>
+                            <div class="fund-pct">30%</div>
+                        </div>
+                        <div class="fund-row">
+                            <div class="fund-lbl">👥 <span data-en="People" data-pt="Pessoas">People</span></div>
+                            <div class="fund-track">
+                                <div class="fund-fill fp3"></div>
+                            </div>
+                            <div class="fund-pct">20%</div>
+                        </div>
+                        <div class="fund-row">
+                            <div class="fund-lbl">⚙️ OPEX</div>
+                            <div class="fund-track">
+                                <div class="fund-fill fp4"></div>
+                            </div>
+                            <div class="fund-pct">10%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <p class="s-eye" data-en="6-Month Milestones" data-pt="Marcos em 6 Meses">6-Month Milestones</p>
+                    <h2 class="s-head" data-en="Post-Close Roadmap" data-pt="Roadmap Pós-Fechamento">Post-Close Roadmap
+                    </h2>
+                    <div class="ms-list">
+                        <div class="ms-item">
+                            <div class="ms-ico">🏭</div>
+                            <div>
+                                <h4 data-en="Operational Scale" data-pt="Escala Operacional">Operational Scale</h4>
+                                <p data-en="Hardware industrialization, scalable production &amp; deployment capacity, sales expansion."
+                                    data-pt="Industrialização do hardware, capacidade de produção e deploy escalável, expansão comercial.">
+                                    Hardware industrialization, scalable production &amp; deployment capacity, sales
+                                    expansion.</p>
+                            </div>
+                        </div>
+                        <div class="ms-item">
+                            <div class="ms-ico">🏗️</div>
+                            <div>
+                                <h4 data-en="Team &amp; Governance" data-pt="Time e Governança">Team &amp; Governance
+                                </h4>
+                                <p data-en="Key talent retention, market-aligned founder compensation, upgraded reporting &amp; governance structure."
+                                    data-pt="Retenção de talentos, compensação de founders alinhada ao mercado, estrutura de reporting e governança aprimorada.">
+                                    Key talent retention, market-aligned founder compensation, upgraded reporting &amp;
+                                    governance structure.</p>
+                            </div>
+                        </div>
+                        <div class="ms-item">
+                            <div class="ms-ico">🌎</div>
+                            <div>
+                                <h4 data-en="Strategic Positioning" data-pt="Posicionamento Estratégico">Strategic
+                                    Positioning</h4>
+                                <p data-en="US corporate structure implemented, governance formalized, readiness for structured Seed+ round."
+                                    data-pt="Estrutura corporativa nos EUA implementada, governança formalizada, prontidão para rodada Seed+ estruturada.">
+                                    US corporate structure implemented, governance formalized, readiness for structured
+                                    Seed+ round.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div><!-- /wrap -->
+
+    <!-- DEAL BOX -->
+    <div style="padding:0 40px 64px;background:linear-gradient(180deg,transparent,rgba(0,81,240,.03))">
+        <div style="max-width:900px;margin:0 auto">
+            <div class="deal">
+                <div class="round-badge" style="margin-bottom:16px" data-en="Open Round — Accepting Investors"
+                    data-pt="Rodada Aberta — Aceitando Investidores">Open Round — Accepting Investors</div>
+                <h2 data-en="Seed+ Bridge Round" data-pt="Rodada Seed+ Bridge">Seed+ Bridge Round</h2>
+                <p class="dsub"
+                    data-en="Post-Money SAFE · Conversion: best of Valuation Cap or 10% discount on qualified round"
+                    data-pt="SAFE Post-Money · Conversão: melhor entre Cap de Valuation ou 10% de desconto na rodada qualificada">
+                    Post-Money SAFE · Conversion: best of Valuation Cap or 10% discount on qualified round
+                </p>
+
+                <div class="deal-nums">
+                    <div class="dn">
+                        <div class="dn-val min-raise">$90K</div>
+                        <div class="dn-lbl" data-en="Minimum Raise" data-pt="Captação Mínima">Minimum Raise</div>
+                    </div>
+                    <div class="deal-arrow">→</div>
+                    <div class="dn">
+                        <div class="dn-val tgt-raise">$150K</div>
+                        <div class="dn-lbl" data-en="Target Raise" data-pt="Captação Alvo">Target Raise</div>
+                    </div>
+                    <div class="deal-arrow">@</div>
+                    <div class="dn">
+                        <div class="dn-val amber val-cap">$3M</div>
+                        <div class="dn-lbl" data-en="Valuation Cap" data-pt="Cap de Valuation">Valuation Cap</div>
+                    </div>
+                </div>
+
+                <div class="deal-terms">
+                    <div class="dt"><strong class="min-tick">$3K</strong><span data-en="Min Ticket"
+                            data-pt="Ticket Mínimo">Min Ticket</span></div>
+                    <div class="dt"><strong>6×</strong><span data-en="Monthly Installments"
+                            data-pt="Parcelas Mensais">Monthly Installments</span></div>
+                    <div class="dt"><strong>SAFE</strong><span>Post-Money</span></div>
+
+                    <!-- safer phrasing than "max equity" -->
+                    <div class="dt">
+                        <strong data-en="Indicative" data-pt="Indicativo">Indicative</strong>
+                        <span data-en="Dilution at cap (FD basis)" data-pt="Diluição no cap (base FD)">Dilution at cap
+                            (FD basis)</span>
+                    </div>
+
+                    <div class="dt"><strong>10%</strong><span data-en="Discount on Qualified Round"
+                            data-pt="Desconto na Rodada Qualificada">Discount on Qualified Round</span></div>
+                </div>
+
+                <div class="deal-note" data-en="Confidential terms summary. Full SAFE terms available upon request."
+                    data-pt="Resumo confidencial de termos. Termos completos do SAFE mediante solicitação.">
+                    Confidential terms summary. Full SAFE terms available upon request.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TEAM -->
+    <div class="wrap">
+        <section class="section">
+            <p class="s-eye" data-en="Founding Team" data-pt="Time Fundador">Founding Team</p>
+            <h2 class="s-head" data-en="Full-Time Execution · 10 People Strong"
+                data-pt="Execução Full-Time · Time de 10 Pessoas">Full-Time Execution · 10 People Strong</h2>
+
+            <div class="team-grid">
+                <div class="tc">
+                    <img src="data:image/png;base64," alt="Eliel Oliveira">
+                    <div class="tc-name">Eliel Oliveira</div>
+                    <div class="tc-role">CEO &amp; CTO</div>
+                    <div class="tc-sub" data-en="Proprietary hardware/firmware + platform execution"
+                        data-pt="Execução de hardware/firmware proprietários + plataforma">Proprietary hardware/firmware
+                        + platform execution</div>
+                    <div class="tc-contact">
+                        <a href="tel:+5562996357903">📞 (62) 9 9635-7903</a>
+                        <a href="mailto:eliel@hagelab.com.br">✉ eliel@hagelab.com.br</a>
+                    </div>
+                </div>
+
+                <div class="tc">
+                    <img src="data:image/png;base64," alt="Rogério Diniz">
+                    <div class="tc-name">Rogério Diniz</div>
+                    <div class="tc-role" data-en="CSO · Biomedical Scientist" data-pt="CSO · Cientista Biomédico">CSO ·
+                        Biomedical Scientist</div>
+                    <div class="tc-sub" data-en="Regulated operations &amp; healthcare domain execution"
+                        data-pt="Execução em operações reguladas e domínio de saúde">Regulated operations &amp;
+                        healthcare domain execution</div>
+                    <div class="tc-contact">
+                        <a href="tel:+5562984245945">📞 (62) 9 8424-5945</a>
+                        <a href="mailto:rogerio@hagelab.com.br">✉ rogerio@hagelab.com.br</a>
+                    </div>
+                </div>
+
+                <div class="tc">
+                    <img src="data:image/png;base64," alt="Vinicyus Fróes">
+                    <div class="tc-name">Vinicyus Fróes</div>
+                    <div class="tc-role">CBO &amp; CPO</div>
+                    <div class="tc-sub" data-en="Go-to-market, product, partnerships &amp; fundraising"
+                        data-pt="Go-to-market, produto, parcerias e captação">Go-to-market, product, partnerships &amp;
+                        fundraising</div>
+                    <div class="tc-contact">
+                        <a href="tel:+5562981400497">📞 (62) 9 8140-0497</a>
+                        <a href="mailto:vinicyus@hagelab.com.br">✉ vinicyus@hagelab.com.br</a>
+                    </div>
+                </div>
+
+                <div class="tc">
+                    <div class="tc-avatar" style="font-size:18px;font-weight:900">+7</div>
+                    <div class="tc-name" data-en="Operational Core" data-pt="Núcleo Operacional">Operational Core</div>
+                    <div class="tc-role" data-en="Full-Time Team" data-pt="Time Full-Time">Full-Time Team</div>
+                    <div class="tc-sub" data-en="IoT Eng · QA · CX · Finance · Production"
+                        data-pt="IoT Eng · QA · CX · Financeiro · Produção">IoT Eng · QA · CX · Finance · Production
+                    </div>
+                    <div class="tc-contact">
+                        <a style="pointer-events:none;opacity:.65;font-size:10px"
+                            data-en="Execution &amp; delivery at scale" data-pt="Execução e entrega em escala">Execution
+                            &amp; delivery at scale</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <h2 data-en="Ready to Join the Round?" data-pt="Pronto para Entrar na Rodada?">Ready to Join the Round?</h2>
+        <p data-en="Breakeven reached · 100+ enterprise clients · 1,800+ monitored points · Capital deployed directly into scale"
+            data-pt="Breakeven atingido · 100+ clientes enterprise · 1.800+ pontos monitorados · Capital alocado diretamente para escala">
+            Breakeven reached · 100+ enterprise clients · Capital deployed directly into scale
+        </p>
+
+        <div class="btn-wrap">
+            <a id="btn-deck"
+                href="https://wa.me/5562981400497?text=Hello%2C+Vinicyus!+I%27m+interested+in+receiving+the+full+Hage+Pitch+Deck.+Can+we+connect%3F"
+                target="_blank" rel="noreferrer" class="btn btn-wa">📲 <span data-en="Request Full Deck"
+                    data-pt="Solicitar Deck Completo">Request Full Deck</span></a>
+
+            <a id="btn-call"
+                href="mailto:vinicyus@hagelab.com.br?subject=Scheduling+a+call+%E2%80%94+Hage+Investor+Teaser&body=Hello+Vinicyus%2C%0A%0AI+came+across+the+Hage+investor+teaser+and+would+like+to+schedule+a+call+to+learn+more+about+the+Seed%2B+Bridge+Round.%0A%0ALooking+forward+to+connecting%21"
+                class="btn btn-outline">✉ <span data-en="Schedule a Call" data-pt="Agendar uma Conversa">Schedule a
+                    Call</span></a>
+        </div>
+
+        <div style="margin-bottom:14px">
+            <a href="https://www.hagelab.com.br" target="_blank" rel="noreferrer" class="btn btn-outline"
+                style="font-size:12px;padding:9px 22px">🌐 www.hagelab.com.br ↗</a>
+        </div>
+    </section>
+
+    <footer>
+        © 2025 Hage &nbsp;
+        <span data-en="Confidential — For qualified investors only. Not an offer to sell securities."
+            data-pt="Confidencial — Apenas para investidores qualificados. Não constitui oferta de valores mobiliários.">
+            Confidential — For qualified investors only. Not an offer to sell securities.
+        </span>
+    </footer>
+
+    <script>
+        function toggleTheme() {
+            const h = document.documentElement;
+            const dark = h.getAttribute('data-theme') === 'dark';
+            h.setAttribute('data-theme', dark ? 'light' : 'dark');
+            document.getElementById('themeBtn').textContent = dark ? '☀️' : '🌙';
+        }
+
+        const vals = {
+            mrr: { en: '$24.3K', pt: 'R$121,5K' },
+            arr: { en: '$292K', pt: 'R$1,46M' },
+            cac: { en: '$491', pt: 'R$2.455' },
+            ltv: { en: '$5.25K', pt: 'R$26,25K' },
+            ebitdaEx: { en: '45.8%', pt: '45,8%' },
+            ebitda: { en: '28.4%', pt: '28,4%' },
+            minRaise: { en: '$90K', pt: 'R$450K' },
+            tgtRaise: { en: '$150K', pt: 'R$750K' },
+            valCap: { en: '$3M', pt: 'R$15M' },
+            minTick: { en: '$3K', pt: 'R$15K' },
+        };
+
+        const waLinks = {
+            en: 'https://wa.me/5562981400497?text=Hello%2C+Vinicyus!+I%27m+interested+in+receiving+the+full+Hage+Pitch+Deck.+Can+we+connect%3F',
+            pt: 'https://wa.me/5562981400497?text=Ol%C3%A1%2C+Vinicyus!+Tenho+interesse+em+receber+o+Pitch+Deck+completo+da+Hage.+Podemos+conversar%3F'
+        };
+
+        const emailLinks = {
+            en: 'mailto:vinicyus@hagelab.com.br?subject=Scheduling+a+call+%E2%80%94+Hage+Investor+Teaser&body=Hello+Vinicyus%2C%0A%0AI+came+across+the+Hage+investor+teaser+and+would+like+to+schedule+a+call+to+learn+more+about+the+Seed%2B+Bridge+Round.%0A%0ALooking+forward+to+connecting%21',
+            pt: 'mailto:vinicyus@hagelab.com.br?subject=Agendamento+de+conversa+%E2%80%94+Hage+Investor+Teaser&body=Ol%C3%A1%2C+Vinicyus%21%0A%0AVi+o+investor+teaser+da+Hage+e+gostaria+de+agendar+uma+conversa+para+saber+mais+sobre+a+Rodada+Seed%2B+Bridge.%0A%0AAguardo+retorno%21'
+        };
+
+        function setLang(l) {
+            document.getElementById('btn-pt').classList.toggle('active', l === 'pt');
+            document.getElementById('btn-en').classList.toggle('active', l === 'en');
+            document.documentElement.lang = l === 'pt' ? 'pt-BR' : 'en';
+
+            document.querySelectorAll('[data-en]').forEach(el => {
+                el.innerHTML = el.getAttribute('data-' + l) || el.getAttribute('data-en');
+            });
+
+            const c = k => vals[k][l] || vals[k].en;
+
+            document.querySelectorAll('.mrr-m,.mrr-ue').forEach(e => e.textContent = c('mrr'));
+            document.querySelectorAll('.arr-ue').forEach(e => e.textContent = c('arr'));
+            document.querySelectorAll('.cac-ue').forEach(e => e.textContent = c('cac'));
+            document.querySelectorAll('.ltv-ue').forEach(e => e.textContent = c('ltv'));
+            document.querySelectorAll('.ebitda-ex-ue').forEach(e => e.textContent = c('ebitdaEx'));
+            document.querySelectorAll('.ebitda-ue').forEach(e => e.textContent = c('ebitda'));
+            document.querySelectorAll('.min-raise').forEach(e => e.textContent = c('minRaise'));
+            document.querySelectorAll('.tgt-raise').forEach(e => e.textContent = c('tgtRaise'));
+            document.querySelectorAll('.val-cap').forEach(e => e.textContent = c('valCap'));
+            document.querySelectorAll('.min-tick').forEach(e => e.textContent = c('minTick'));
+
+            document.querySelectorAll('.rev-proj').forEach(e => {
+                e.textContent = l === 'pt'
+                    ? ' Receita alvo R$1,26M–R$2,00M · EBITDA alvo 36,3% · ARR alvo R$1,92M'
+                    : ' Revenue target $252K–$400K · EBITDA target 36.3% · ARR target $383K';
+            });
+
+            document.getElementById('btn-deck').href = waLinks[l];
+            document.getElementById('btn-call').href = emailLinks[l];
+        }
+    </script>
+</body>
+
+</html>
