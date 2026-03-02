@@ -82,6 +82,8 @@ Aplicar no repositorio `hage-tech/seed-bridge`:
 4. Nao criar `production` e `test` como environments de deploy do Pages.
 5. Em `Settings > Actions > General`, garantir que as permissoes padrao permitam o deploy do Pages.
 
+Se isso ja foi configurado no GitHub, essa etapa pode ser considerada concluida.
+
 ## Rollout
 
 1. Mergear estas mudancas em `main`.
@@ -102,3 +104,19 @@ Depois disso:
 - `bash -n scripts/prepare-pages-artifact.sh`
 - `test -f site/index.html`
 - `test -f site/robots.txt`
+
+## Scripts locais do fluxo Git
+
+- `./scripts/deploy-dev.sh`: faz `git switch dev`, `git add -A`, commit e push para `origin/dev`
+- `./scripts/promote-dev.sh`: atualiza `main`, faz merge de `dev` em `main` e push para `origin/main`
+
+Observacao:
+
+- `./scripts/deploy-dev.sh` usa `git add -A`, entao ele inclui qualquer alteracao local rastreada ou nao rastreada do repositorio no commit de `dev`
+
+Ambos aceitam mensagem opcional:
+
+```bash
+./scripts/deploy-dev.sh "Update teaser copy"
+./scripts/promote-dev.sh "Promote dev to main"
+```
