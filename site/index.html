@@ -4,7 +4,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hage — Investor Teaser</title>
+    <title>Hage — Seed+ Bridge</title>
+    <link rel="icon" href="assets/favicon.ico" sizes="any">
+    <script>
+        (function () {
+            const isTestEnv = /(^|\/)test(\/|$)/.test(window.location.pathname);
+
+            if (!isTestEnv) {
+                return;
+            }
+
+            document.documentElement.dataset.env = 'test';
+
+            if (!document.title.endsWith(' [TEST]')) {
+                document.title += ' [TEST]';
+            }
+
+            if (!document.head.querySelector('meta[name="robots"]')) {
+                const robots = document.createElement('meta');
+                robots.name = 'robots';
+                robots.content = 'noindex,nofollow';
+                document.head.appendChild(robots);
+            }
+        }());
+    </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&display=swap');
 
@@ -29,9 +52,12 @@
             --border2: rgba(51, 202, 255, 0.28);
             --divider: rgba(255, 255, 255, 0.06);
             --shadow: 0 0 40px rgba(0, 81, 240, 0.18);
-            --logo-d: block;
-            --logo-l: none;
             --hero-grad: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(0, 81, 240, 0.16) 0%, transparent 70%);
+            --asset-surface: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(233, 241, 255, 0.92) 100%);
+            --asset-border: rgba(51, 202, 255, 0.22);
+            --asset-shadow: 0 18px 34px rgba(0, 7, 22, 0.24);
+            --caption-bg: rgba(0, 16, 38, 0.72);
+            --caption-shadow: 0 10px 24px rgba(0, 7, 22, 0.24);
         }
 
         :root[data-theme="light"] {
@@ -47,9 +73,12 @@
             --border2: rgba(0, 81, 240, 0.3);
             --divider: rgba(0, 81, 240, 0.08);
             --shadow: 0 0 40px rgba(0, 81, 240, 0.10);
-            --logo-d: none;
-            --logo-l: block;
             --hero-grad: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(0, 81, 240, 0.08) 0%, transparent 70%);
+            --asset-surface: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(246, 249, 255, 0.94) 100%);
+            --asset-border: rgba(0, 81, 240, 0.12);
+            --asset-shadow: 0 18px 34px rgba(0, 81, 240, 0.08);
+            --caption-bg: rgba(255, 255, 255, 0.88);
+            --caption-shadow: 0 10px 24px rgba(0, 81, 240, 0.10);
         }
 
         body {
@@ -58,6 +87,33 @@
             color: var(--text);
             line-height: 1.6;
             transition: background .3s, color .3s
+        }
+
+        html[data-env="test"] body::before {
+            content: 'TEST';
+            position: fixed;
+            top: 78px;
+            right: 22px;
+            z-index: 400;
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 184, 0, 0.42);
+            background: rgba(255, 184, 0, 0.14);
+            color: #ffd166;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1.4px;
+            text-transform: uppercase;
+            box-shadow: 0 10px 24px rgba(0, 7, 22, 0.18);
+            backdrop-filter: blur(12px);
+            pointer-events: none
+        }
+
+        @media(max-width:640px) {
+            html[data-env="test"] body::before {
+                top: 72px;
+                right: 14px
+            }
         }
 
         .nav {
@@ -84,23 +140,21 @@
             flex-shrink: 0
         }
 
+        .logo-full,
+        .logo-icon {
+            display: block;
+            width: auto;
+            flex-shrink: 0
+        }
+
         .logo-full {
-            height: 32px;
-            width: auto
-        }
-
-        .logo-d {
-            display: var(--logo-d)
-        }
-
-        .logo-l {
-            display: var(--logo-l)
+            display: block;
+            height: 32px
         }
 
         .logo-icon {
             display: none;
-            height: 38px;
-            width: auto
+            height: 38px
         }
 
         .nav-right {
@@ -163,9 +217,8 @@
                 padding: 0 16px
             }
 
-            .logo-d,
-            .logo-l {
-                display: none !important
+            .logo-full {
+                display: none
             }
 
             .logo-icon {
@@ -371,24 +424,46 @@
             margin-bottom: 10px
         }
 
-        .logo-cloud {
+        .customer-cloud {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 12px;
+            max-width: 980px;
+            margin: 0 auto
+        }
+
+        .customer-tile {
+            height: 86px;
+            padding: 12px 16px;
+            border-radius: 16px;
+            border: 1px solid var(--asset-border);
+            background: var(--asset-surface);
+            box-shadow: var(--asset-shadow);
             display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
+            align-items: center;
             justify-content: center
         }
 
-        .logo-chip {
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--text);
-            padding: 7px 12px;
-            border-radius: 999px;
-            background: var(--bg-card);
-            border: 1px solid var(--border)
+        .customer-logo {
+            display: block;
+            width: auto;
+            max-width: var(--logo-max-width, 78%);
+            height: auto;
+            max-height: var(--logo-max-height, 40px);
+            object-fit: contain
         }
 
-        .logo-chip.muted {
+        .customer-seal {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 14px;
+            padding: 8px 14px;
+            border-radius: 999px;
+            border: 1px solid var(--border2);
+            background: var(--bg-card);
+            font-size: 11px;
+            font-weight: 700;
             color: var(--muted)
         }
 
@@ -466,6 +541,86 @@
             font-size: 13px;
             color: var(--muted);
             line-height: 1.75
+        }
+
+        .platform-showcase {
+            display: grid;
+            grid-template-columns: minmax(0, 1.85fr) minmax(0, .95fr);
+            gap: 18px;
+            margin-top: 22px
+        }
+
+        .platform-shot {
+            /* background: var(--bg-card); */
+            border-bottom: 1px solid var(--border);
+            /* border-radius: 20px; */
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: stretch;
+        }
+
+        .platform-shot.main {
+            min-height: 320px;
+            max-height: 380px
+        }
+
+        .platform-shot.secondary {
+            min-height: 320px;
+            max-height: 380px;
+            padding-top: 4rem;
+        }
+
+        .platform-shot:hover .platform-caption {
+            border-color: var(--border2);
+            box-shadow: var(--shadow)
+        }
+
+        .platform-media {
+            flex: 1;
+            min-height: 100%;
+            border-radius: inherit;
+            overflow: hidden;
+            display: flex;
+            align-items: stretch;
+            justify-content: center;
+        }
+
+        .platform-shot img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            max-height: none;
+            object-fit: contain 
+        }
+
+        .platform-shot.main img {
+            object-position: center bottom
+        }
+
+        .platform-shot.secondary img {
+            object-position: right bottom
+        }
+
+        .platform-caption {
+            position: absolute;
+            top: 22px;
+            left: 22px;
+            z-index: 1;
+            display: inline-flex;
+            align-items: center;
+            max-width: calc(100% - 36px);
+            padding: 8px 12px;
+            border-radius: 999px;
+            border: 1px solid var(--border2);
+            background: var(--caption-bg);
+            box-shadow: var(--caption-shadow);
+            backdrop-filter: blur(12px);
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text);
+            transition: border-color .2s, box-shadow .2s, background .3s
         }
 
         /* PS */
@@ -1088,7 +1243,27 @@
         /* RESPONSIVE */
         @media(max-width:900px) {
             .g3 {
-                grid-template-columns: 1fr 1fr
+                grid-template-columns: 1fr 1fr 1fr
+            }
+
+            .customer-cloud {
+                grid-template-columns: repeat(3, minmax(0, 1fr))
+            }
+
+            .customer-tile {
+                height: 88px
+            }
+
+            .platform-showcase {
+                grid-template-columns: 1fr
+            }
+
+            .platform-shot.secondary {
+                min-height: 280px;
+                max-height: 320px;
+                padding-top: 0;
+                padding-left: 4rem;
+                padding-right: 4rem;
             }
 
             .team-grid {
@@ -1110,7 +1285,19 @@
             }
 
             .g3 {
-                grid-template-columns: 1fr 1fr
+                grid-template-columns: 1fr
+            }
+
+            .customer-cloud {
+                grid-template-columns: repeat(2, minmax(0, 1fr))
+            }
+
+            .platform-shot.main {
+                min-height: 280px
+            }
+
+            .platform-shot.secondary {
+                min-height: 240px
             }
 
             .deal {
@@ -1147,6 +1334,19 @@
                 grid-template-columns: 1fr
             }
 
+            .customer-tile {
+                height: 78px;
+                padding: 12px 14px
+            }
+
+            .platform-caption {
+                top: 14px;
+                left: 14px;
+                max-width: calc(100% - 28px);
+                padding: 7px 10px;
+                font-size: 11px
+            }
+
             .mkt-grid {
                 grid-template-columns: 1fr 1fr
             }
@@ -1159,15 +1359,16 @@
     <!-- NAV -->
     <nav class="nav">
         <a class="nav-logo" href="https://www.hagelab.com.br" target="_blank" rel="noreferrer">
-            <span class="logo-d"><svg width="435" height="100" viewBox="0 0 435 100" fill="none"
-                    xmlns="http://www.w3.org/2000/svg"></svg></span>
-            <span class="logo-l"><svg width="435" height="100" viewBox="0 0 435 100" fill="none"
-                    xmlns="http://www.w3.org/2000/svg"></svg></span>
-            <span class="logo-icon"><svg width="40" height="44" viewBox="0 0 95 100" fill="none"
-                    xmlns="http://www.w3.org/2000/svg"></svg></span>
+            <img class="logo-full" src="assets/brand/hagelab-logo-dark.svg" alt="Hage" decoding="async"
+                data-dark-src="assets/brand/hagelab-logo-dark.svg"
+                data-light-src="assets/brand/hagelab-logo-light.svg">
+            <img class="logo-icon" src="assets/brand/icon-dark.svg" alt="Hage" decoding="async"
+                data-dark-src="assets/brand/icon-dark.svg" data-light-src="assets/brand/icon-light.svg">
         </a>
         <div class="nav-right">
-            <button class="theme-btn" onclick="toggleTheme()" id="themeBtn" title="Toggle theme">🌙</button>
+            <button class="theme-btn" onclick="toggleTheme()" id="themeBtn" title="Toggle theme">
+                🌙
+            </button>
             <div class="lang-toggle">
                 <button class="lang-btn" id="btn-pt" onclick="setLang('pt')">PT-BR</button>
                 <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN-US</button>
@@ -1201,7 +1402,7 @@
         <div class="chips-row" style="margin-top:4px">
             <span class="chip chip-m">📡 IoT Technology</span>
             <span class="chip chip-m">🔁 B2B HaaS</span>
-            <span class="chip chip-g">✓ <span data-en="Breakeven Achieved" data-pt="Breakeven Atingido">Breakeven
+            <span class="chip chip-g">✓ <span data-en="Breakeven Achieved" data-pt="Ponto de equilíbrio Atingido">Breakeven
                     Achieved</span></span>
             <span class="chip chip-a">⚡ <span data-en="Scaling Stage" data-pt="Fase de Escala">Scaling
                     Stage</span></span>
@@ -1242,16 +1443,26 @@
     <div class="trusted">
         <div class="t-title" data-en="Trusted by regulated operators" data-pt="Confiado por operações reguladas">Trusted
             by regulated operators</div>
-        <div class="logo-cloud">
-            <span class="logo-chip">Equiplex</span>
-            <span class="logo-chip">Transplex</span>
-            <span class="logo-chip">Sabin</span>
-            <span class="logo-chip">União Química</span>
-            <span class="logo-chip" data-en="Hospital do Câncer (Rio Verde)"
-                data-pt="Hospital do Câncer (Rio Verde)">Hospital do Câncer (Rio Verde)</span>
-            <span class="logo-chip muted" data-en="+100 enterprise customers" data-pt="+100 clientes enterprise">+100
-                enterprise customers</span>
+        <div class="customer-cloud">
+            <div class="customer-tile"><img class="customer-logo" src="assets/customers/sabin.png" alt="Sabin"
+                    loading="lazy" decoding="async" style="--logo-max-width: 78%; --logo-max-height: 40px;"></div>
+            <div class="customer-tile"><img class="customer-logo" src="assets/customers/hcrv.png" alt="HCRV"
+                    loading="lazy" decoding="async" style="--logo-max-width: 72%; --logo-max-height: 48px;"></div>
+            <div class="customer-tile"><img class="customer-logo" src="assets/customers/equiplex.png" alt="Equiplex"
+                    loading="lazy" decoding="async" style="--logo-max-width: 80%; --logo-max-height: 38px;"></div>
+            <div class="customer-tile"><img class="customer-logo" src="assets/customers/transplex.png" alt="Transplex"
+                    loading="lazy" decoding="async" style="--logo-max-width: 72%; --logo-max-height: 52px; margin-top: 16px;"></div>
+            <div class="customer-tile"><img class="customer-logo" src="assets/customers/tsalog.png" alt="TSALOG"
+                    loading="lazy" decoding="async" style="--logo-max-width: 88%; --logo-max-height: 28px;"></div>
+            <div class="customer-tile"><img class="customer-logo" src="assets/customers/kallab.png" alt="Kallab"
+                    loading="lazy" decoding="async" style="--logo-max-width: 88%; --logo-max-height: 32px;"></div>
+            <div class="customer-tile"><img class="customer-logo" src="assets/customers/nucleo.png" alt="Núcleo"
+                    loading="lazy" decoding="async" style="--logo-max-width: 42%; --logo-max-height: 56px;"></div>
+            <div class="customer-tile"><img class="customer-logo" src="assets/customers/f%26f.png" alt="F&amp;F"
+                    loading="lazy" decoding="async" style="--logo-max-width: 82%; --logo-max-height: 36px;"></div>
         </div>
+        <div class="customer-seal" data-en="+100 enterprise customers" data-pt="+100 clientes enterprise">+100
+            enterprise customers</div>
     </div>
 
     <!-- MAIN -->
@@ -1365,8 +1576,8 @@
         <!-- PRODUCT -->
         <section class="section">
             <p class="s-eye" data-en="Platform" data-pt="Plataforma">Platform</p>
-            <h2 class="s-head" data-en="Proprietary Stack — Three Product Lines"
-                data-pt="Stack Proprietário — Três Linhas de Produto">Proprietary Stack — Three Product Lines</h2>
+            <h2 class="s-head" data-en="Proprietary Stack"
+                data-pt="Solução Proprietária">Proprietary Stack</h2>
             <div class="g3">
                 <div class="card">
                     <div class="card-ico">📡</div>
@@ -1400,6 +1611,24 @@
                         secure API with ERP &amp; legacy system integration.
                     </div>
                 </div>
+            </div>
+            <div class="platform-showcase">
+                <article class="platform-shot main">
+                    <div class="platform-caption" data-en="Operational web dashboard" data-pt="Painel operacional web">
+                        Operational web dashboard</div>
+                    <div class="platform-media">
+                        <img src="assets/platform/web.png" alt="Hage operational web dashboard" loading="lazy"
+                            decoding="async">
+                    </div>
+                </article>
+                <article class="platform-shot secondary">
+                    <div class="platform-caption" data-en="Mobile monitoring &amp; alerts"
+                        data-pt="Monitoramento e alertas mobile">Mobile monitoring &amp; alerts</div>
+                    <div class="platform-media">
+                        <img src="assets/platform/app.png" alt="Hage mobile monitoring and alerts app" loading="lazy"
+                            decoding="async">
+                    </div>
+                </article>
             </div>
         </section>
 
@@ -1703,12 +1932,14 @@
 
             <div class="team-grid">
                 <div class="tc">
-                    <img src="data:image/png;base64," alt="Eliel Oliveira">
+                    <img src="assets/founders/eliel1x1.png" alt="Eliel Oliveira" loading="lazy" decoding="async">
                     <div class="tc-name">Eliel Oliveira</div>
                     <div class="tc-role">CEO &amp; CTO</div>
-                    <div class="tc-sub" data-en="Proprietary hardware/firmware + platform execution"
-                        data-pt="Execução de hardware/firmware proprietários + plataforma">Proprietary hardware/firmware
-                        + platform execution</div>
+                    <div class="tc-sub"
+                        data-en="Executive leadership, partnerships, R&amp;D, and proprietary hardware, firmware &amp; software."
+                        data-pt="Liderança executiva, parcerias, P&amp;D e hardware, firmware e software proprietários.">
+                        Executive leadership, partnerships, R&amp;D, and proprietary hardware, firmware &amp; software.
+                    </div>
                     <div class="tc-contact">
                         <a href="tel:+5562996357903">📞 (62) 9 9635-7903</a>
                         <a href="mailto:eliel@hagelab.com.br">✉ eliel@hagelab.com.br</a>
@@ -1716,13 +1947,13 @@
                 </div>
 
                 <div class="tc">
-                    <img src="data:image/png;base64," alt="Rogério Diniz">
+                    <img src="assets/founders/rogerio1x1.png" alt="Rogério Diniz" loading="lazy" decoding="async">
                     <div class="tc-name">Rogério Diniz</div>
                     <div class="tc-role" data-en="CSO · Biomedical Scientist" data-pt="CSO · Cientista Biomédico">CSO ·
                         Biomedical Scientist</div>
-                    <div class="tc-sub" data-en="Regulated operations &amp; healthcare domain execution"
-                        data-pt="Execução em operações reguladas e domínio de saúde">Regulated operations &amp;
-                        healthcare domain execution</div>
+                    <div class="tc-sub" data-en="Go-to-market and healthcare domain execution."
+                        data-pt="Go-to-market e execução no domínio de saúde.">Go-to-market and healthcare domain
+                        execution.</div>
                     <div class="tc-contact">
                         <a href="tel:+5562984245945">📞 (62) 9 8424-5945</a>
                         <a href="mailto:rogerio@hagelab.com.br">✉ rogerio@hagelab.com.br</a>
@@ -1730,12 +1961,12 @@
                 </div>
 
                 <div class="tc">
-                    <img src="data:image/png;base64," alt="Vinicyus Fróes">
+                    <img src="assets/founders/vinicyus1x1.png" alt="Vinicyus Fróes" loading="lazy" decoding="async">
                     <div class="tc-name">Vinicyus Fróes</div>
                     <div class="tc-role">CBO &amp; CPO</div>
-                    <div class="tc-sub" data-en="Go-to-market, product, partnerships &amp; fundraising"
-                        data-pt="Go-to-market, produto, parcerias e captação">Go-to-market, product, partnerships &amp;
-                        fundraising</div>
+                    <div class="tc-sub" data-en="Business, administration, fundraising and strategy."
+                        data-pt="Negócios, administração, fundraising e estratégia.">Business, administration,
+                        fundraising and strategy.</div>
                     <div class="tc-contact">
                         <a href="tel:+5562981400497">📞 (62) 9 8140-0497</a>
                         <a href="mailto:vinicyus@hagelab.com.br">✉ vinicyus@hagelab.com.br</a>
@@ -1763,7 +1994,7 @@
     <section class="cta-section">
         <h2 data-en="Ready to Join the Round?" data-pt="Pronto para Entrar na Rodada?">Ready to Join the Round?</h2>
         <p data-en="Breakeven reached · 100+ enterprise clients · 1,800+ monitored points · Capital deployed directly into scale"
-            data-pt="Breakeven atingido · 100+ clientes enterprise · 1.800+ pontos monitorados · Capital alocado diretamente para escala">
+            data-pt="Ponto de equilíbrio atingido · 100+ clientes enterprise · 1.800+ pontos monitorados · Capital alocado diretamente para escala">
             Breakeven reached · 100+ enterprise clients · Capital deployed directly into scale
         </p>
 
@@ -1786,7 +2017,7 @@
     </section>
 
     <footer>
-        © 2025 Hage &nbsp;
+        © 2026 Hage &nbsp;
         <span data-en="Confidential — For qualified investors only. Not an offer to sell securities."
             data-pt="Confidencial — Apenas para investidores qualificados. Não constitui oferta de valores mobiliários.">
             Confidential — For qualified investors only. Not an offer to sell securities.
@@ -1794,11 +2025,19 @@
     </footer>
 
     <script>
+        function applyTheme(theme) {
+            const root = document.documentElement;
+            root.dataset.theme = theme;
+            document.getElementById('themeBtn').textContent = theme === 'dark' ? '🌙' : '☀️';
+
+            document.querySelectorAll('.nav-logo img[data-dark-src]').forEach(logo => {
+                logo.src = theme === 'light' ? logo.dataset.lightSrc : logo.dataset.darkSrc;
+            });
+        }
+
         function toggleTheme() {
-            const h = document.documentElement;
-            const dark = h.getAttribute('data-theme') === 'dark';
-            h.setAttribute('data-theme', dark ? 'light' : 'dark');
-            document.getElementById('themeBtn').textContent = dark ? '☀️' : '🌙';
+            const nextTheme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+            applyTheme(nextTheme);
         }
 
         const vals = {
@@ -1855,6 +2094,8 @@
             document.getElementById('btn-deck').href = waLinks[l];
             document.getElementById('btn-call').href = emailLinks[l];
         }
+
+        applyTheme(document.documentElement.dataset.theme || 'dark');
     </script>
 </body>
 

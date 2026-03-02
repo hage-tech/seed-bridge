@@ -2,43 +2,84 @@ name: Deploy Investor Teaser to GitHub Pages
 
 on:
   push:
-    branches: ["main"]
+    branches:
+      - main
+      - dev
   workflow_dispatch:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
-  group: "pages"
+  group: github-pages
   cancel-in-progress: true
 
 jobs:
-  deploy:
+  validate:
+    name: Validate site
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify site files
+        run: |
+          test -f site/index.html
+          test -f site/robots.txt
+          test -d site/assets
+
+      - name: Validate artifact script
+        run: bash -n scripts/prepare-pages-artifact.sh
+
+  build-pages:
+    name: Build Pages artifact
+    if: github.ref_name == 'main' || github.ref_name == 'dev'
+    needs: validate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fetch deployment branches
+        run: |
+          git fetch origin main --depth=1 || true
+          git fetch origin dev --depth=1 || true
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Prepare Pages artifact
+        run: scripts/prepare-pages-artifact.sh "${GITHUB_REF_NAME}" "_site"
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy-pages:
+    name: Deploy Pages
+    if: github.ref_name == 'main' || github.ref_name == 'dev'
+    needs: build-pages
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
 
-    runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-
-      # Opcional: validações básicas (mantém CI com “governança”)
-      # - name: HTML sanity check
-      #   run: |
-      #     test -f site/index.html
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: site
-
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
